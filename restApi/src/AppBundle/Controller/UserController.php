@@ -10,11 +10,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 use AppBundle\Entity\User;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class UserController extends FOSRestController
 {
 
     /**
+     * @ApiDoc(
+     *    description="Crée un lieu dans l'application",
+     *    input={"class"=UserType::class, "name"=""},
+     *    statusCodes = {
+     *        200 = "Géneration des données avec succès",
+     *        500 = "Error https"
+     *    },
+     *    responseMap={
+     *         200 = {"class"=User::class, "groups"={"User"}},
+     *         500 = { "class"=UserType::class, "form_errors"=true, "name" = ""}
+     *    }
+     * )
+     *
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"User"})
      * @Rest\Get("/user")
      */
     public function getAction()
@@ -28,7 +43,17 @@ class UserController extends FOSRestController
 
 
     /**
-     * @Rest\Get("/user/{id}")
+      * @ApiDoc(
+      *    description="Crée un lieu dans l'application",
+      *    input={"class"=UserType::class, "name"=""},
+      *    statusCodes = {
+      *        200 = "Géneration des données avec succès",
+      *        500 = "Error https"
+      *    }
+      * )
+      *
+      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"User"})
+      * @Rest\Get("/user/{id}")
      */
      public function idAction($id)
      {
