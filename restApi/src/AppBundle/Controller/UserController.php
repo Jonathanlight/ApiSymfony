@@ -41,7 +41,7 @@ class UserController extends FOSRestController
 
 
     /**
-     * @Rest\Post("/user/")
+     * @Rest\Post("/user")
      */
      public function postAction(Request $request)
      {
@@ -89,6 +89,7 @@ class UserController extends FOSRestController
            $sn->flush();
            return new View("User Name Updated Successfully", Response::HTTP_OK);
           }else{
+            die($request);
            return new View("User name or role cannot be empty", Response::HTTP_NOT_ACCEPTABLE);
          }
 
@@ -111,6 +112,32 @@ class UserController extends FOSRestController
        }
       return new View("deleted successfully", Response::HTTP_OK);
      }
+
+
+     /**
+     * @Rest\Get("/datas")
+     */
+    public function getCurlAction()
+    {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://reddit.com/r/gifs/top/.json?limit=10&sort=hot');
+        //curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $restresult = curl_exec($ch);
+        curl_close($ch);
+
+        echo "<pre>";
+        var_dump($restresult);
+        die();
+        //echo curl_errno($ch) . '-' . curl_error($ch);
+
+        curl_close($ch);
+        if ($restresult === null) {
+          return new View("there are no users exist", Response::HTTP_NOT_FOUND);
+        }
+        return $restresult;
+    }
 
 
 
